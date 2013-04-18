@@ -20,13 +20,12 @@ $VERSION = '1.00';
 sub btc {
     my ($data, $server, $witem) = @_;
     return unless $witem;
+
     my $content = get("https://data.mtgox.com/api/2/BTCUSD/money/ticker");
+    my $quote = decode_json( $content );
 
-    my $response = decode_json( $content );
-
-    # $witem->print('It works!');
-    if( $response->{result} eq 'success' ) {
-    	my($high,$low,$avg) = map { $response->{data}->{$_}->{value} } qw(high low avg);
+    if( $quote->{result} eq 'success' ) {
+    	my($high,$low,$avg) = map { $quote->{data}->{$_}->{value} } qw(high low avg);
     	Irssi::active_win->command("/say BTCUSD: high:$high low:$low average:$avg");
     	return;
     }
@@ -37,22 +36,18 @@ sub ltc {
     my ($data, $server, $witem) = @_;
     return unless $witem;
 
-    # https://btc-e.com/api/2/btc_usd/ticker
-    my $ua = LWP::UserAgent->new( 'agent'=>'Mozilla/5.0' );
-
+    my $ua = LWP::UserAgent->new( 'agent'=>'Mozilla/5.0' ); #Identify as some browser
     my $url = "https://btc-e.com/api/2/ltc_usd/ticker";
     my $res = $ua->get($url);
     my $content = $res->content();
+    my $quote = decode_json( $content );
 
-    my $response = decode_json( $content );
-
-    if( $response ) {
-    	my($high,$low,$avg) = map { $response->{ticker}->{$_} } qw(high low avg);
+    if( $quote ) {
+    	my($high,$low,$avg) = map { $quote->{ticker}->{$_} } qw(high low avg);
     	Irssi::active_win->command("/say LTCUSD: high:$high low:$low average:$avg");
     	return;
     }
 
-    # $witem->print('It works!');
     Irssi::active_win->command("/say failed to get BTC-e data");
 }
 
