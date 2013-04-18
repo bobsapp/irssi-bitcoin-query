@@ -4,6 +4,7 @@ use vars qw($VERSION %IRSSI);
 use Irssi;
 use JSON;
 use LWP::Simple;
+use LWP::UserAgent;
 
 $VERSION = '1.00';
 %IRSSI = (
@@ -36,10 +37,19 @@ sub ltc {
     my ($data, $server, $witem) = @_;
     return unless $witem;
 
-    # https://btc-e.com/exchange/ltc_usd
+    # https://btc-e.com/api/2/btc_usd/ticker
+    my $url = "https://btc-e.com/api/2/btc_usd/ticker";
+    my $content = get($url);
+    my $response = decode_json( $content );
+
+    if( $response ) {
+    	my($high,$low,$avg) = map { $response->{ticker}->{$_} } qw(high low avg);
+    	Irssi::active_win->command("/say LTCUSD: high:$high low:$low average:$avg");
+    	return;
+    }
 
     # $witem->print('It works!');
-    Irssi::active_win->command("/say sup dawg dat ltc be blingin");
+    Irssi::active_win->command("/say failed to get BTC-e data");
 }
 
 Irssi::command_bind btc => \&btc;
