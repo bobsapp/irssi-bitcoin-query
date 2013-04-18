@@ -21,7 +21,13 @@ sub btc {
     $witem->print('It works!');
 }
 
-Irssi::command_bind test => \&testing;
-Irssi::command_bind hello => sub {
-    print 'Hello, world!';
-};
+sub ltc {
+    my ($data, $server, $witem) = @_;
+    return unless $witem;
+    # $witem (window item) may be undef.
+
+    $witem->print('It works!');
+}
+
+Irssi::command_bind btc => \&btc;
+Irssi::command_bind ltc => \&ltc;
