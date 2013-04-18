@@ -25,7 +25,7 @@ sub btc {
 
     # $witem->print('It works!');
     if( $response->{result} eq 'success' ) {
-    	my($high,$low,$avg) = map { $response->{data}->{$_}->{value} } qw(high low average);
+    	my($high,$low,$avg) = map { $response->{data}->{$_}->{value} } qw(high low avg);
     	Irssi::active_win->command("/say BTCUSD: high:$high low:$low average:$avg");
     	return;
     }
