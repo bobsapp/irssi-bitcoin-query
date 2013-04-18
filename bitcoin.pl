@@ -19,6 +19,7 @@ sub btc {
     # $witem (window item) may be undef.
 
     $witem->print('It works!');
+    Irssi::active_win->command("/say sup dawg dat btc be blingin");
 }
 
 sub ltc {
@@ -27,6 +28,7 @@ sub ltc {
     # $witem (window item) may be undef.
 
     $witem->print('It works!');
+    Irssi::active_win->command("/say sup dawg dat ltc be blingin");
 }
 
 Irssi::command_bind btc => \&btc;
