@@ -40,7 +40,7 @@ sub ltc {
     # https://btc-e.com/api/2/btc_usd/ticker
     my $ua = LWP::UserAgent->new( 'agent'=>'Mozilla/5.0' );
 
-    my $url = "https://btc-e.com/api/2/btc_usd/ticker";
+    my $url = "https://btc-e.com/api/2/ltc_usd/ticker";
     my $res = $ua->get($url);
     my $content = $res->content();
 
