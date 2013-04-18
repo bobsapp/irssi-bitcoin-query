@@ -20,7 +20,8 @@ sub btc {
     my ($data, $server, $witem) = @_;
     return unless $witem;
     my $content = get("https://data.mtgox.com/api/2/BTCUSD/money/ticker");
-    my $response = $json->decode( $content );
+
+    my $response = decode_json( $content );
 
     # $witem->print('It works!');
     if( $response->{result} eq 'success' ) {
